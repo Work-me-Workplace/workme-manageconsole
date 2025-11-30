@@ -7,6 +7,7 @@
 'use client'
 
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
+import { getAnalytics, Analytics } from 'firebase/analytics'
 import { firebaseConfig as defaultConfig } from '../firebase.config'
 
 // Use env vars if set, otherwise use config file values
@@ -22,6 +23,7 @@ const firebaseConfig = {
 
 // Only initialize in browser and if config is valid
 let firebaseClientApp: FirebaseApp | null = null
+let analytics: Analytics | null = null
 
 if (typeof window !== 'undefined') {
   // Check if Firebase config is valid (at minimum need apiKey)
@@ -32,6 +34,16 @@ if (typeof window !== 'undefined') {
       // Initialize only if not already initialized
       firebaseClientApp =
         getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
+      
+      // Initialize Analytics (only in browser)
+      if (firebaseClientApp && typeof window !== 'undefined') {
+        try {
+          analytics = getAnalytics(firebaseClientApp)
+        } catch (error) {
+          // Analytics may fail in some environments (e.g., SSR, localhost without proper setup)
+          console.warn('Firebase Analytics initialization skipped:', error)
+        }
+      }
     } catch (error) {
       console.error('Firebase initialization error:', error)
       firebaseClientApp = null
@@ -41,5 +53,5 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { firebaseClientApp }
+export { firebaseClientApp, analytics }
 
