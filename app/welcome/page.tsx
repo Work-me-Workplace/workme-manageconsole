@@ -17,8 +17,8 @@ export default function WelcomePage() {
       return
     }
 
-    // Check if profile is complete (has name and company)
-    const isProfileComplete = session.name && session.companyId
+    // Check if profile is complete (has name)
+    const isProfileComplete = session.name
 
     if (isProfileComplete) {
       // TODO: Redirect to /home when it's created

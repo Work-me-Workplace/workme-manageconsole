@@ -14,7 +14,6 @@ export interface ServerSession {
   email: string
   name: string | null
   photoUrl: string | null
-  companyId: string | null
 }
 
 /**
@@ -36,7 +35,6 @@ export async function getServerSession(): Promise<ServerSession | null> {
     // Get user from database
     const user = await prisma.user.findUnique({
       where: { firebaseId: decodedToken.uid },
-      include: { company: true },
     })
 
     if (!user) {
@@ -49,7 +47,6 @@ export async function getServerSession(): Promise<ServerSession | null> {
       email: user.email,
       name: user.name,
       photoUrl: user.photoUrl,
-      companyId: user.companyId,
     }
   } catch (error) {
     console.error('[getServerSession] Error:', error)

@@ -15,7 +15,6 @@ export interface Session {
   email: string | null
   name: string | null
   photoUrl: string | null
-  companyId: string | null
   firebaseToken: string | null
   hydratedAt: number | null
 }
@@ -34,7 +33,6 @@ const AuthContext = createContext<AuthContextType>({
     email: null,
     name: null,
     photoUrl: null,
-    companyId: null,
     firebaseToken: null,
     hydratedAt: null,
   },
@@ -57,7 +55,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     email: null,
     name: null,
     photoUrl: null,
-    companyId: null,
     firebaseToken: null,
     hydratedAt: null,
   })
@@ -96,7 +93,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: firebaseUser.email || user.email,
         name: user.name || firebaseUser.displayName,
         photoUrl: user.photoUrl || firebaseUser.photoURL,
-        companyId: user.companyId,
         firebaseToken: token,
         hydratedAt: Date.now(),
       }
@@ -105,7 +101,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       console.log('[AuthProvider] Session hydrated:', {
         userId: newSession.userId,
-        companyId: newSession.companyId,
         email: newSession.email,
       })
     } catch (err: any) {
@@ -119,7 +114,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: null,
         name: null,
         photoUrl: null,
-        companyId: null,
         firebaseToken: null,
         hydratedAt: null,
       })
@@ -138,7 +132,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email: null,
       name: null,
       photoUrl: null,
-      companyId: null,
       firebaseToken: null,
       hydratedAt: null,
     })

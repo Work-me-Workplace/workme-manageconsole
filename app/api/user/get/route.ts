@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getAdminAuth } from '@/lib/firebase/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     // Verify Firebase token
@@ -19,9 +21,6 @@ export async function GET(request: NextRequest) {
     // Get user from database
     const user = await prisma.user.findUnique({
       where: { firebaseId: decodedToken.uid },
-      include: {
-        company: true,
-      },
     })
 
     if (!user) {
@@ -40,14 +39,8 @@ export async function GET(request: NextRequest) {
         name: user.name,
         photoUrl: user.photoUrl,
         title: user.title,
-        companyId: user.companyId,
-        division: user.division,
-        unit: user.unit,
-        company: user.company ? {
-          id: user.company.id,
-          name: user.company.name,
-          domain: user.company.domain,
-        } : null,
+        companyUnit: user.companyUnit,
+        companyDivision: user.companyDivision,
       },
     })
   } catch (error: any) {

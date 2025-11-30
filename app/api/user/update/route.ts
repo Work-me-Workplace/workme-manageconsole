@@ -3,13 +3,14 @@ import { z } from 'zod'
 import { getAdminAuth } from '@/lib/firebase/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const updateUserSchema = z.object({
   name: z.string().optional(),
   title: z.string().optional(),
   photoUrl: z.string().url().optional().nullable(),
-  companyId: z.string().optional().nullable(),
-  division: z.string().optional().nullable(),
-  unit: z.string().optional().nullable(),
+  companyUnit: z.string().optional().nullable(),
+  companyDivision: z.string().optional().nullable(),
 })
 
 export async function POST(request: NextRequest) {
@@ -35,17 +36,13 @@ export async function POST(request: NextRequest) {
     if (validated.name !== undefined) updateData.name = validated.name
     if (validated.title !== undefined) updateData.title = validated.title
     if (validated.photoUrl !== undefined) updateData.photoUrl = validated.photoUrl
-    if (validated.companyId !== undefined) updateData.companyId = validated.companyId
-    if (validated.division !== undefined) updateData.division = validated.division
-    if (validated.unit !== undefined) updateData.unit = validated.unit
+    if (validated.companyUnit !== undefined) updateData.companyUnit = validated.companyUnit
+    if (validated.companyDivision !== undefined) updateData.companyDivision = validated.companyDivision
 
     // Update user
     const user = await prisma.user.update({
       where: { firebaseId: decodedToken.uid },
       data: updateData,
-      include: {
-        company: true,
-      },
     })
 
     return NextResponse.json({
@@ -57,13 +54,8 @@ export async function POST(request: NextRequest) {
         name: user.name,
         photoUrl: user.photoUrl,
         title: user.title,
-        companyId: user.companyId,
-        division: user.division,
-        unit: user.unit,
-        company: user.company ? {
-          id: user.company.id,
-          name: user.company.name,
-        } : null,
+        companyUnit: user.companyUnit,
+        companyDivision: user.companyDivision,
       },
     })
   } catch (error: any) {

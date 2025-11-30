@@ -3,6 +3,8 @@ import { z } from 'zod'
 import { getAdminAuth } from '@/lib/firebase/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const upsertUserSchema = z.object({
   firebaseId: z.string(),
   email: z.string().email(),
@@ -50,9 +52,6 @@ export async function POST(request: NextRequest) {
         name: validated.displayName,
         photoUrl: validated.photoUrl,
       },
-      include: {
-        company: true,
-      },
     })
 
     return NextResponse.json({
@@ -64,13 +63,8 @@ export async function POST(request: NextRequest) {
         name: user.name,
         photoUrl: user.photoUrl,
         title: user.title,
-        companyId: user.companyId,
-        division: user.division,
-        unit: user.unit,
-        company: user.company ? {
-          id: user.company.id,
-          name: user.company.name,
-        } : null,
+        companyUnit: user.companyUnit,
+        companyDivision: user.companyDivision,
       },
     })
   } catch (error: any) {

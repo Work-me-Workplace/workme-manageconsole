@@ -3,15 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from './AuthProvider'
 import api from '@/lib/api'
-import { CompanySelector } from './CompanySelector'
 
 export function UserProfileForm() {
   const { session, refreshSession } = useAuth()
   const [name, setName] = useState('')
   const [title, setTitle] = useState('')
-  const [division, setDivision] = useState('')
-  const [unit, setUnit] = useState('')
-  const [companyId, setCompanyId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -31,9 +27,6 @@ export function UserProfileForm() {
         const user = response.data.user
         setName(user.name || '')
         setTitle(user.title || '')
-        setDivision(user.division || '')
-        setUnit(user.unit || '')
-        setCompanyId(user.companyId)
       }
     } catch (error: any) {
       setError(error.response?.data?.error || 'Failed to load user data')
@@ -52,9 +45,6 @@ export function UserProfileForm() {
       const response = await api.post('/api/user/update', {
         name: name || undefined,
         title: title || undefined,
-        division: division || undefined,
-        unit: unit || undefined,
-        companyId: companyId,
       })
 
       if (response.data.success) {
@@ -132,36 +122,6 @@ export function UserProfileForm() {
         />
       </div>
 
-      <CompanySelector value={companyId} onChange={setCompanyId} />
-
-      <div>
-        <label htmlFor="division" className="block text-sm font-medium text-gray-700">
-          Division
-        </label>
-        <input
-          type="text"
-          id="division"
-          value={division}
-          onChange={(e) => setDivision(e.target.value)}
-          placeholder="e.g., Engineering"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="unit" className="block text-sm font-medium text-gray-700">
-          Unit
-        </label>
-        <input
-          type="text"
-          id="unit"
-          value={unit}
-          onChange={(e) => setUnit(e.target.value)}
-          placeholder="e.g., Backend"
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-        />
-      </div>
-
       <div>
         <button
           type="submit"
@@ -174,4 +134,3 @@ export function UserProfileForm() {
     </form>
   )
 }
-

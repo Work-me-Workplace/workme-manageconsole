@@ -12,10 +12,6 @@ async function verify() {
     const userCount = await prisma.user.count()
     console.log(`✅ User table exists (${userCount} records)`)
 
-    // Check Company table
-    const companyCount = await prisma.company.count()
-    console.log(`✅ Company table exists (${companyCount} records)`)
-
     console.log('\n🎉 Database setup complete!')
   } catch (error) {
     console.error('❌ Error:', error)

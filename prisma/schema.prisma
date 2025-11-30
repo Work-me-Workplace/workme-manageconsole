@@ -8,42 +8,20 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  firebaseId String   @unique
-  email      String   @unique
-  name       String?
-  photoUrl   String?
-  title      String?
+  id              String   @id @default(cuid())
+  firebaseId      String   @unique
+  email           String   @unique
+  name            String?
+  photoUrl        String?
+  title           String?
 
-  companyId  String?
-  company    Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
-  division   String?
-  unit       String?
+  companyUnit     String?
+  companyDivision String?
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([firebaseId])
   @@index([email])
-  @@index([companyId])
-}
-
-model Company {
-  id         String   @id @default(cuid())
-  name       String
-  domain     String?
-  apolloId   String?
-  size       String?
-  industry   String?
-  logoUrl    String?
-  enrichedAt DateTime?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  employees User[]
-
-  @@index([name])
-  @@index([domain])
-  @@index([apolloId])
 }
 
