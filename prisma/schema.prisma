@@ -25,3 +25,47 @@ model User {
   @@index([email])
 }
 
+model Company {
+  id            String   @id @default(cuid())
+
+  // Basic Identity
+  name          String
+  domain        String?
+  website       String?
+  linkedinUrl   String?
+  description   String?
+  logoUrl       String?
+
+  // Industry + Type
+  industry      String?
+  subIndustry   String?
+  companyType   String?
+
+  // Size / Org
+  employeeCount Int?
+  employeeRange String?
+  foundedYear   Int?
+  revenue       String?
+
+  // HQ / Location
+  hqCity        String?
+  hqState       String?
+  hqCountry     String?
+
+  // Social
+  twitterUrl    String?
+  facebookUrl   String?
+  phone         String?
+
+  // System Data
+  apolloId      String?
+  enrichedAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([name])
+  @@index([domain])
+  @@index([linkedinUrl])
+  @@index([industry])
+}
+

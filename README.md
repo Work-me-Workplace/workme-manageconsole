@@ -37,4 +37,5 @@ npm run dev
 - `NEXT_PUBLIC_FIREBASE_APP_ID` - Firebase app ID
 - `FIREBASE_SERVICE_ACCOUNT_KEY` - Firebase service account JSON (as string)
 - Or individual vars: `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`
+- `APOLLO_API_KEY` - Apollo.io API key for company enrichment
 
