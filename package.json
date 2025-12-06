@@ -19,17 +19,17 @@
     "firebase": "^12.6.0",
     "firebase-admin": "^13.6.0",
     "lucide-react": "^0.554.0",
-    "next": "14.0.0",
+    "next": "15.4.8",
     "postcss": "8.4.23",
     "prisma": "5.14.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "tailwindcss": "^3.4.18",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
-    "@types/react": "^18.2.45",
+    "@types/react": "^19.2.4",
     "dotenv": "^17.2.3",
     "typescript": "^5.3.3"
   },
